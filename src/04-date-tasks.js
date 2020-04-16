@@ -77,10 +77,14 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  const timespan = endDate.getTime() - startDate.getTime();
+  const miliseconds = (timespan % 1000).toString().length === 1 ? '000' : (timespan % 1000).toString();
+  const seconds = Math.floor((timespan / 1000) % 60).toString().length < 2 ? `0${Math.floor((timespan / 1000) % 60).toString()}` : Math.floor((timespan / 1000) % 60).toString();
+  const minutes = Math.floor((timespan / (1000 * 60)) % 60).toString().length < 2 ? `0${Math.floor((timespan / (1000 * 60)) % 60).toString()}` : Math.floor((timespan / (1000 * 60)) % 60).toString();
+  const hours = Math.floor((timespan / (1000 * 60 * 60)) % 100).toString().length < 2 ? `0${Math.floor((timespan / (1000 * 60 * 60)) % 100).toString()}` : Math.floor((timespan / (1000 * 60 * 60)) % 100).toString();
+  return `${hours}:${minutes}:${seconds}.${miliseconds}`;
 }
-
 
 /**
  * Returns the angle (in radians) between the hands of an analog clock
@@ -98,8 +102,13 @@ function timeSpanToString(/* startDate, endDate */) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
-  throw new Error('Not implemented');
+function angleBetweenClockHands(date) {
+  const minutes = date.getUTCMinutes();
+  let hours = date.getUTCHours();
+  hours = hours > 12 ? hours - 12 : hours;
+  let difference = 60 * hours - 11 * minutes;
+  difference = difference > 360 ? Math.abs(difference) - 360 : difference;
+  return (0.5 * Math.PI * Math.abs(difference)) / 180;
 }
 
 
