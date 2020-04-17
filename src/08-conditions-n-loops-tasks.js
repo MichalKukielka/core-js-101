@@ -278,8 +278,8 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  return ((num - 1) % 9) + 1;
 }
 
 
@@ -369,10 +369,21 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const result = [];
+  for (let index1 = 0; index1 < m1.length; index1 += 1) {
+    const row = [];
+    for (let idnex2 = 0; idnex2 < m2[0].length; idnex2 += 1) {
+      let sum = 0;
+      for (let index3 = 0; index3 < m2.length; index3 += 1) {
+        sum += m1[index1][index3] * m2[index3][idnex2];
+      }
+      row.push(sum);
+    }
+    result.push(row);
+  }
+  return result;
 }
-
 
 /**
  * Returns the evaluation of the specified tic-tac-toe position.
