@@ -426,8 +426,27 @@ function getMatrixProduct(m1, m2) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const checkWinner = (board, mark) => {
+    const result = (board[0] === mark && board[1] === mark && board[2] === mark)
+      || (board[3] === mark && board[4] === mark && board[5] === mark)
+      || (board[6] === mark && board[7] === mark && board[8] === mark)
+      || (board[0] === mark && board[3] === mark && board[6] === mark)
+      || (board[1] === mark && board[4] === mark && board[7] === mark)
+      || (board[2] === mark && board[5] === mark && board[8] === mark)
+      || (board[2] === mark && board[4] === mark && board[6] === mark)
+      || (board[0] === mark && board[4] === mark && board[8] === mark);
+    return result;
+  };
+  position.forEach((row) => {
+    if (row.length === 2) {
+      row.push(undefined);
+    }
+  });
+  const board = [].concat(position[0]).concat(position[1]).concat(position[2]);
+  if (checkWinner(board, 'X')) return 'X';
+  if (checkWinner(board, '0')) return '0';
+  return undefined;
 }
 
 
